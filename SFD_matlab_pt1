@@ -1,0 +1,79 @@
+%% SCRIPT TO DESIGN COPLANAR RENDEZ-VOUS AT DIFFERENT ALTITUDE AFTER USING J2
+% TO NULL RAAN DIFFERENCE.
+close, clear, clc;
+
+mu = 3.986e+14;     %in meters
+Rearth = 6378e+03;  %in meters
+J2 = 1.08e-03;
+
+%Orbital Parameters
+
+%Target
+htgt = 1800;                %target orbit height in km
+atgt = Rearth+htgt*1000;    %target orbit sma in meters
+ntgt = sqrt(mu/(atgt)^3);   %target mean motion
+itgt = 5;                   %target inc in degs
+itgt = deg2rad(itgt);       %target inc in rads
+ratgt = 0;                  %target raan in degs
+ratgt = deg2rad(ratgt);     %target raan in rads
+tgtTA0 = 0;                 %target initial TA in degs
+tgtTA0 = deg2rad(tgtTA0);   %target initial TA in rads
+
+%Chaser
+hchs = 800;                 %chaser orbit height in km
+achs = Rearth+hchs*1000;    %chaser orbit sma in meters
+nchs = sqrt(mu/(achs)^3);   %chaser mean motion
+ichs = 5;                   %chaser inc in degs
+ichs = deg2rad(ichs);       %chaser inc in rads
+rachs = 5;                  %chaser raan in degs
+rachs = deg2rad(rachs);     %chaser raan in rads
+chsTA0 = 0;                 %chaser initial TA in degs
+chsTA0 = deg2rad(chsTA0);   %chaser initial TA in rads
+
+
+%PHASE 1 - RAAN ALIGNMENT
+
+Dra0 = ratgt - rachs;                                       %initial raan difference
+radottgt = -(3/2)*J2*ntgt*((Rearth/atgt)^2)*cos(itgt);      %target raan rate
+radotchs = -(3/2)*J2*nchs*((Rearth/achs)^2)*cos(ichs);      %chaser raan rate
+Dradot = radottgt - radotchs;                               %raan rate difference
+Talign = -Dra0/Dradot;                                      %orb. planes alignment time
+Talign_days = Talign / 84600;                               %Talign in days
+%Note that if Talign is negative then the Dra0 is too much or opposite
+
+%PHASE 2 - COPLANAR RENDEZ-VOUS
+
+%ni0tgt = mod(ntgt*Talign, 2*pi);                        %target TA at the end of Talign
+%ni0chs = mod(nchs*Talign, 2*pi);                        %chaser TA at the end of Talign
+%Dni0 = ni0tgt - ni0chs;                                 %delta ni at the end of Talign
+%the problem here is that J2 also causes a precession of the AOP that was
+%not being accounted for. A GMAT simulation is ran to get the TA values
+%(actually the argument of latitude 'u') that are used for the rendes-vouz
+
+aop0tgt = 190.243;
+aop0tgt = deg2rad(aop0tgt);         %target aop after Talign in rad
+TA0tgt = 0.041;                     
+TA0tgt = deg2rad(TA0tgt);           %target TA after Talign in rad
+
+aop0chs = 295.12;
+aop0chs = deg2rad(aop0chs);         %chaser aop after Talign in rad
+TA0chs = 12.81;
+TA0chs = deg2rad(TA0chs);           %chaser TA after Talign in rad
+
+u0tgt = aop0tgt + TA0tgt;           %target argument of latitude after Talign in rad
+u0chs = aop0chs + TA0chs;           %chaser argument of latitude after Talign in rad
+
+Dni0 = u0tgt - u0chs;                                   %not actually a delta 'ni'
+
+ahoh = (atgt + achs)/2;                                 %transfer ellipse sma
+Thoh = pi*sqrt((ahoh^3)/mu);                            %transfer ellipse half period
+nhoh = sqrt(mu/(ahoh^3));                               %transfer ellipse mean motion
+Dnireq = pi*(1 - (ntgt/nhoh));                          %delta ni required to maneouver
+Twait = (Dnireq - Dni0)/(ntgt - nchs);                  %waiting time to maneouver
+Tsynodic = 2*pi/abs(ntgt - nchs);                       %relative geometry synodic period
+if Twait < 0
+    Twait = Twait + Tsynodic;
+end
+
+Dv1 = sqrt(mu*((2/achs)-(1/ahoh))) - sqrt(mu/achs);     %first hohmann delta v
+Dv2 = sqrt(mu/atgt) - sqrt(mu*((2/atgt)-(1/ahoh)));     %second hohmann delta v
