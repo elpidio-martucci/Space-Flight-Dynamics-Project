@@ -1,0 +1,122 @@
+%% PHASE 3 - DOCKING USING RELATIVE ASTRODYNAMICS
+close; clear; clc;
+
+% -------------------------
+% Load relative state from GMAT log
+% -------------------------
+M = readmatrix("RendesvouzLog.txt");
+m = length(M);
+v = M(m,:);
+
+% Relative position (chaser - target)
+x0 = v(2) - v(1);
+y0 = v(4) - v(3);
+z0 = v(6) - v(5);
+xvec0 = [x0; y0; z0];
+fprintf('Initial relative position: [%.2f, %.2f, %.2f] m\n', xvec0);
+
+% Docking time [s]
+T = 3600;
+
+% Mean motion of target orbit [rad/s]
+n = 8.5369e-04; 
+
+% -------------------------
+% Compute Δv1 (initial velocity to rendezvous)
+% -------------------------
+Phi_rr = [4-3*cos(n*T), 0, 0;
+          6*(sin(n*T)-n*T), 1, 0;
+          0, 0, cos(n*T)];
+
+Phi_rv = [sin(n*T)/n, (2/n)*(1-cos(n*T)), 0;
+          (2/n)*(cos(n*T)-1), (4*sin(n*T)-3*n*T)/n, 0;
+          0, 0, sin(n*T)/n];
+
+Xdot0 = -Phi_rv \ (Phi_rr * xvec0);
+
+DeltaV1 = norm(Xdot0);
+fprintf('Required Δv1 = %.3f m/s\n', DeltaV1);
+
+% -------------------------
+% Integrate HCW equations
+% -------------------------
+X0 = [xvec0; Xdot0]; % [x y z xdot ydot zdot]
+
+Dt = 10;
+Nt = round(T/Dt);
+tspan = linspace(0,T,Nt);
+
+[t, X] = ode45(@f_CW, tspan, X0);
+
+xdot = X(:,4); ydot = X(:,5); zdot = X(:,6);
+x = X(:,1);   y = X(:,2);   z = X(:,3);
+
+% -------------------------
+% Compute Δv2 (final correction burn)
+% -------------------------
+DeltaV2 = norm([xdot(end), ydot(end), zdot(end)]);
+fprintf('Required Δv2 = %.6f m/s\n', DeltaV2);
+
+% -------------------------
+% 2D XY animation
+% -------------------------
+figure('Name','Docking XY plane','Color','w');
+hold on; grid on; axis equal;
+xlabel('x [m]'); ylabel('y [m]');
+title('Relative motion in target LVLH frame (XY plane)');
+plot(0,0,'r*','MarkerSize',10,'LineWidth',1.5); % docking point
+
+traj = plot(x(1),y(1),'b','LineWidth',1.2); % trajectory line
+chaser = plot(x(1),y(1),'go','MarkerFaceColor','g'); % moving point
+
+for k = 1:5:length(x)
+    set(traj,'XData',x(1:k),'YData',y(1:k));
+    set(chaser,'XData',x(k),'YData',y(k));
+    drawnow;
+end
+
+% -------------------------
+% Time history plots
+% -------------------------
+figure('Name','Relative Position vs Time','Color','w');
+subplot(3,1,1);
+plot(t,x,'b','LineWidth',1.5); grid on;
+ylabel('x [m]'); title('Relative Position vs Time');
+
+subplot(3,1,2);
+plot(t,y,'r','LineWidth',1.5); grid on;
+ylabel('y [m]');
+
+subplot(3,1,3);
+plot(t,z,'g','LineWidth',1.5); grid on;
+ylabel('z [m]'); xlabel('Time [s]');
+
+% -------------------------
+% 3D Trajectory (static)
+% -------------------------
+figure('Name','3D Relative Trajectory','Color','w');
+plot3(x,y,z,'LineWidth',1.5);
+hold on;
+plot3(x(1),y(1),z(1),'go','MarkerFaceColor','g');
+plot3(x(end),y(end),z(end),'ro','MarkerFaceColor','r');
+xlabel('x [m]'); ylabel('y [m]'); zlabel('z [m]');
+grid on; axis equal;
+title('Relative trajectory in Target LVLH frame');
+legend('trajectory','start','end');
+
+% -------------------------
+% HCW equations
+% -------------------------
+function dX = f_CW(~,X)
+    n = 8.5369e-04; 
+    x = X(1); y = X(2); z = X(3);
+    xdot = X(4); ydot = X(5); zdot = X(6);
+
+    dX = zeros(6,1);
+    dX(1) = xdot;
+    dX(2) = ydot;
+    dX(3) = zdot;
+    dX(4) = 3*n^2*x + 2*n*ydot;
+    dX(5) = -2*n*xdot;
+    dX(6) = -n^2*z;
+end
