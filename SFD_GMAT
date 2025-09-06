@@ -1,0 +1,224 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2025-08-25 20:26:19
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft TGT;
+GMAT TGT.DateFormat = UTCGregorian;
+GMAT TGT.Epoch = '02 Sep 2025 11:59:28.000';
+GMAT TGT.CoordinateSystem = EarthMJ2000Eq;
+GMAT TGT.DisplayStateType = Keplerian;
+GMAT TGT.SMA = 8178.000000000005;
+GMAT TGT.ECC = 0.001000000000000411;
+GMAT TGT.INC = 5.000000000000064;
+GMAT TGT.RAAN = 0;
+GMAT TGT.AOP = 0;
+GMAT TGT.TA = 0;
+GMAT TGT.DryMass = 850;
+GMAT TGT.Cd = 2.2;
+GMAT TGT.Cr = 1.8;
+GMAT TGT.DragArea = 15;
+GMAT TGT.SRPArea = 1;
+GMAT TGT.SPADDragScaleFactor = 1;
+GMAT TGT.SPADSRPScaleFactor = 1;
+GMAT TGT.AtmosDensityScaleFactor = 1;
+GMAT TGT.ExtendedMassPropertiesModel = 'None';
+GMAT TGT.NAIFId = -10000001;
+GMAT TGT.NAIFIdReferenceFrame = -9000001;
+GMAT TGT.OrbitColor = Red;
+GMAT TGT.TargetColor = Teal;
+GMAT TGT.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT TGT.CdSigma = 1e+70;
+GMAT TGT.CrSigma = 1e+70;
+GMAT TGT.Id = 'SatId';
+GMAT TGT.Attitude = CoordinateSystemFixed;
+GMAT TGT.SPADSRPInterpolationMethod = Bilinear;
+GMAT TGT.SPADSRPScaleFactorSigma = 1e+70;
+GMAT TGT.SPADDragInterpolationMethod = Bilinear;
+GMAT TGT.SPADDragScaleFactorSigma = 1e+70;
+GMAT TGT.AtmosDensityScaleFactorSigma = 1e+70;
+GMAT TGT.ModelFile = 'aura.3ds';
+GMAT TGT.ModelOffsetX = 0;
+GMAT TGT.ModelOffsetY = 0;
+GMAT TGT.ModelOffsetZ = 0;
+GMAT TGT.ModelRotationX = 0;
+GMAT TGT.ModelRotationY = 0;
+GMAT TGT.ModelRotationZ = 0;
+GMAT TGT.ModelScale = 1;
+GMAT TGT.AttitudeDisplayStateType = 'Quaternion';
+GMAT TGT.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT TGT.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT TGT.EulerAngleSequence = '321';
+
+Create Spacecraft CHS;
+GMAT CHS.DateFormat = UTCGregorian;
+GMAT CHS.Epoch = '02 Sep 2025 11:59:28.000';
+GMAT CHS.CoordinateSystem = EarthMJ2000Eq;
+GMAT CHS.DisplayStateType = Keplerian;
+GMAT CHS.SMA = 7178.000000000001;
+GMAT CHS.ECC = 0.0009999999999998168;
+GMAT CHS.INC = 5.000000000000064;
+GMAT CHS.RAAN = 4.999999999999992;
+GMAT CHS.AOP = 1.207418269725733e-06;
+GMAT CHS.TA = 0;
+GMAT CHS.DryMass = 850;
+GMAT CHS.Cd = 2.2;
+GMAT CHS.Cr = 1.8;
+GMAT CHS.DragArea = 15;
+GMAT CHS.SRPArea = 1;
+GMAT CHS.SPADDragScaleFactor = 1;
+GMAT CHS.SPADSRPScaleFactor = 1;
+GMAT CHS.AtmosDensityScaleFactor = 1;
+GMAT CHS.ExtendedMassPropertiesModel = 'None';
+GMAT CHS.NAIFId = -10001001;
+GMAT CHS.NAIFIdReferenceFrame = -9001001;
+GMAT CHS.OrbitColor = Green;
+GMAT CHS.TargetColor = LightGray;
+GMAT CHS.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+GMAT CHS.CdSigma = 1e+70;
+GMAT CHS.CrSigma = 1e+70;
+GMAT CHS.Id = 'SatId';
+GMAT CHS.Attitude = CoordinateSystemFixed;
+GMAT CHS.SPADSRPInterpolationMethod = Bilinear;
+GMAT CHS.SPADSRPScaleFactorSigma = 1e+70;
+GMAT CHS.SPADDragInterpolationMethod = Bilinear;
+GMAT CHS.SPADDragScaleFactorSigma = 1e+70;
+GMAT CHS.AtmosDensityScaleFactorSigma = 1e+70;
+GMAT CHS.ModelFile = 'aura.3ds';
+GMAT CHS.ModelOffsetX = 0;
+GMAT CHS.ModelOffsetY = 0;
+GMAT CHS.ModelOffsetZ = 0;
+GMAT CHS.ModelRotationX = 0;
+GMAT CHS.ModelRotationY = 0;
+GMAT CHS.ModelRotationZ = 0;
+GMAT CHS.ModelScale = 1;
+GMAT CHS.AttitudeDisplayStateType = 'Quaternion';
+GMAT CHS.AttitudeRateDisplayStateType = 'AngularVelocity';
+GMAT CHS.AttitudeCoordinateSystem = EarthMJ2000Eq;
+GMAT CHS.EulerAngleSequence = '321';
+
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel DefaultProp_ForceModel;
+GMAT DefaultProp_ForceModel.CentralBody = Earth;
+GMAT DefaultProp_ForceModel.PrimaryBodies = {Earth};
+GMAT DefaultProp_ForceModel.Drag = None;
+GMAT DefaultProp_ForceModel.SRP = Off;
+GMAT DefaultProp_ForceModel.RelativisticCorrection = Off;
+GMAT DefaultProp_ForceModel.ErrorControl = RSSStep;
+GMAT DefaultProp_ForceModel.GravityField.Earth.Degree = 2;
+GMAT DefaultProp_ForceModel.GravityField.Earth.Order = 0;
+GMAT DefaultProp_ForceModel.GravityField.Earth.StmLimit = 100;
+GMAT DefaultProp_ForceModel.GravityField.Earth.PotentialFile = 'JGM2.cof';
+GMAT DefaultProp_ForceModel.GravityField.Earth.TideModel = 'None';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator DefaultProp;
+GMAT DefaultProp.FM = DefaultProp_ForceModel;
+GMAT DefaultProp.Type = RungeKutta89;
+GMAT DefaultProp.InitialStepSize = 60;
+GMAT DefaultProp.Accuracy = 9.999999999999999e-12;
+GMAT DefaultProp.MinStep = 0.001;
+GMAT DefaultProp.MaxStep = 2700;
+GMAT DefaultProp.MaxStepAttempts = 50;
+GMAT DefaultProp.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create ImpulsiveBurn dvhoh1;
+GMAT dvhoh1.CoordinateSystem = Local;
+GMAT dvhoh1.Origin = Earth;
+GMAT dvhoh1.Axes = VNB;
+GMAT dvhoh1.Element1 = 0.2388114;
+GMAT dvhoh1.Element2 = 0;
+GMAT dvhoh1.Element3 = 0;
+GMAT dvhoh1.DecrementMass = false;
+GMAT dvhoh1.Isp = 300;
+GMAT dvhoh1.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn dvhoh2;
+GMAT dvhoh2.CoordinateSystem = Local;
+GMAT dvhoh2.Origin = Earth;
+GMAT dvhoh2.Axes = VNB;
+GMAT dvhoh2.Element1 = 0.2311461;
+GMAT dvhoh2.Element2 = 0;
+GMAT dvhoh2.Element3 = 0;
+GMAT dvhoh2.DecrementMass = false;
+GMAT dvhoh2.Isp = 300;
+GMAT dvhoh2.GravitationalAccel = 9.81;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView DefaultOrbitView;
+GMAT DefaultOrbitView.SolverIterations = Current;
+GMAT DefaultOrbitView.UpperLeft = [ 0.001176470588235294 0 ];
+GMAT DefaultOrbitView.Size = [ 0.44 0.849502487562189 ];
+GMAT DefaultOrbitView.RelativeZOrder = 35;
+GMAT DefaultOrbitView.Maximized = false;
+GMAT DefaultOrbitView.Add = {TGT, CHS, Earth};
+GMAT DefaultOrbitView.CoordinateSystem = EarthMJ2000Eq;
+GMAT DefaultOrbitView.DrawObject = [ true true true ];
+GMAT DefaultOrbitView.DataCollectFrequency = 1;
+GMAT DefaultOrbitView.UpdatePlotFrequency = 50;
+GMAT DefaultOrbitView.NumPointsToRedraw = 0;
+GMAT DefaultOrbitView.ShowPlot = true;
+GMAT DefaultOrbitView.MaxPlotPoints = 20000;
+GMAT DefaultOrbitView.ShowLabels = true;
+GMAT DefaultOrbitView.ViewPointReference = Earth;
+GMAT DefaultOrbitView.ViewPointVector = [ 30000 0 0 ];
+GMAT DefaultOrbitView.ViewDirection = Earth;
+GMAT DefaultOrbitView.ViewScaleFactor = 1;
+GMAT DefaultOrbitView.ViewUpCoordinateSystem = EarthMJ2000Eq;
+GMAT DefaultOrbitView.ViewUpAxis = Z;
+GMAT DefaultOrbitView.EclipticPlane = Off;
+GMAT DefaultOrbitView.XYPlane = On;
+GMAT DefaultOrbitView.WireFrame = Off;
+GMAT DefaultOrbitView.Axes = On;
+GMAT DefaultOrbitView.Grid = Off;
+GMAT DefaultOrbitView.SunLine = Off;
+GMAT DefaultOrbitView.UseInitialView = On;
+GMAT DefaultOrbitView.StarCount = 7000;
+GMAT DefaultOrbitView.EnableStars = On;
+GMAT DefaultOrbitView.EnableConstellations = On;
+
+Create ReportFile ReportFile1;
+GMAT ReportFile1.SolverIterations = Current;
+GMAT ReportFile1.UpperLeft = [ 0 0 ];
+GMAT ReportFile1.Size = [ 0 0 ];
+GMAT ReportFile1.RelativeZOrder = 0;
+GMAT ReportFile1.Maximized = false;
+GMAT ReportFile1.Filename = 'C:\Users\RendesvouzLog.txt';
+GMAT ReportFile1.Precision = 16;
+GMAT ReportFile1.Add = {TGT.EarthMJ2000Eq.X, CHS.EarthMJ2000Eq.X, TGT.EarthMJ2000Eq.Y, CHS.EarthMJ2000Eq.Y, TGT.EarthMJ2000Eq.Z, CHS.EarthMJ2000Eq.Z};
+GMAT ReportFile1.WriteHeaders = true;
+GMAT ReportFile1.LeftJustify = On;
+GMAT ReportFile1.ZeroFill = Off;
+GMAT ReportFile1.FixedWidth = true;
+GMAT ReportFile1.Delimiter = ' ';
+GMAT ReportFile1.ColumnWidth = 23;
+GMAT ReportFile1.WriteReport = true;
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+Propagate 'Talign' DefaultProp(TGT, CHS) {TGT.ElapsedSecs = 1.8e+05};
+Propagate 'Twait' DefaultProp(TGT, CHS) {TGT.ElapsedSecs = 2.1392e+04};
+Maneuver dvhoh1(CHS);
+Propagate 'Thoh' DefaultProp(TGT, CHS) {TGT.ElapsedSecs = 3.3478e+03};
+Maneuver dvhoh2(CHS);
